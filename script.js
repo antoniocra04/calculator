@@ -20,9 +20,14 @@ document.querySelectorAll('.button').forEach(button => {
   });
 });
 
+const cleanInput = (expr) => {
+  return expr.replace(/\b0+(\d+)/g, '$1');
+};
+
 document.querySelector('.equals_button').addEventListener('click', () => {
   try {
-    display.value = eval(clean);
+    const cleanedInput = cleanInput(display.value);
+    display.value = eval(cleanedInput);
   } catch {
     display.value = 'Error';
   }
