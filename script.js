@@ -1,5 +1,13 @@
 const display = document.querySelector('.display_input');
 
+function isOperator(char) {
+  return ['+', '-', '*', '/'].includes(char);
+}
+
+const cleanInput = (expr) => {
+  return expr.replace(/\b0+(\d+)/g, '$1');
+};
+
 document.querySelectorAll('.button').forEach(button => {
   const id = button.id;
 
@@ -15,14 +23,18 @@ document.querySelectorAll('.button').forEach(button => {
         if(button.textContent === '0' && (display.value === '0' || display.value === '')) {
             return;
         }
+
+        const lastChar = display.value.slice(-1);
+
+        if (isOperator(button.textContent) && isOperator(lastChar)) {
+            display.value = display.value.slice(0, -1) + button.textContent;
+            return;
+        }
+
         display.value += button.textContent;
     }
   });
 });
-
-const cleanInput = (expr) => {
-  return expr.replace(/\b0+(\d+)/g, '$1');
-};
 
 document.querySelector('.equals_button').addEventListener('click', () => {
   try {
